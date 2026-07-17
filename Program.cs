@@ -1,4 +1,9 @@
+using Microsoft.EntityFrameworkCore;
+using FoodDelivery.API.Data;
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDbContext<FoodDeliveryDbContext>(options =>
+    options.UseSqlServer(
+        builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Add services
 builder.Services.AddControllers();
