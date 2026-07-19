@@ -8,6 +8,7 @@ namespace FoodDelivery.API.Interfaces
         Task<IEnumerable<RestaurantResponseDto>> GetAllRestaurantsAsync();
         Task<RestaurantResponseDto?> GetRestaurantByIdAsync(int id);
         Task<RestaurantResponseDto?> UpdateRestaurantAsync(int id, UpdateRestaurantDto dto);
+        Task<bool> DeleteRestaurantAsync(int id);
 
 
     }

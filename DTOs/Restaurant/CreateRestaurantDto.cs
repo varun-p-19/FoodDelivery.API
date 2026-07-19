@@ -17,10 +17,14 @@ namespace FoodDelivery.API.DTOs.Restaurant
         [Required]
         [Phone]
         public string PhoneNumber { get; set; } = string.Empty;
+        [Range(0, 5)]
+        public decimal Rating { get; set; }
 
+        [Required]
         public TimeOnly OpeningTime { get; set; }
-
+        [Required]
         public TimeOnly ClosingTime { get; set; }
+        [Url]
         public string? ImageUrl { get; set; }
 
 

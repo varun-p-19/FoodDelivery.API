@@ -115,4 +115,19 @@ public class RestaurantService : IRestaurantService
             ImageUrl = restaurant.ImageUrl
         };
     }
+    public async Task<bool> DeleteRestaurantAsync(int id)
+    {
+        var restaurant = await _context.Restaurants.FindAsync(id);
+
+        if (restaurant == null)
+        {
+            return false;
+        }
+
+        _context.Restaurants.Remove(restaurant);
+
+        await _context.SaveChangesAsync();
+
+        return true;
+    }
 }
