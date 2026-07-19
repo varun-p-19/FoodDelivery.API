@@ -22,12 +22,8 @@
 
   <ItemGroup>
     <Folder Include="Configurations\" />
-    <Folder Include="Controllers\" />
-    <Folder Include="DTOs\" />
     <Folder Include="Helpers\" />
-    <Folder Include="Interfaces\" />
     <Folder Include="Middleware\" />
-    <Folder Include="Services\" />
     <Folder Include="Repositories\" />
   </ItemGroup>
 

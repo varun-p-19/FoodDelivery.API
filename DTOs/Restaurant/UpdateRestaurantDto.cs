@@ -18,6 +18,7 @@ public class UpdateRestaurantDto
     [Required]
     [Phone]
     public string PhoneNumber { get; set; } = string.Empty;
+    public decimal Rating { get; set; }
 
     public TimeOnly OpeningTime { get; set; }
 
