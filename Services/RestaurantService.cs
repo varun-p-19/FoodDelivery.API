@@ -8,10 +8,11 @@ namespace FoodDelivery.API.Services;
 public class RestaurantService : IRestaurantService
 {
     private readonly FoodDeliveryDbContext _context;
-
-    public RestaurantService(FoodDeliveryDbContext context)
+    private readonly ILogger<RestaurantService> _logger;
+    public RestaurantService(FoodDeliveryDbContext context,ILogger<RestaurantService> logger)
     {
         _context = context;
+        _logger = logger;
     }
 
     public async Task<RestaurantResponseDto> CreateRestaurantAsync(CreateRestaurantDto dto)
@@ -30,6 +31,7 @@ public class RestaurantService : IRestaurantService
         _context.Restaurants.Add(restaurant);
 
         await _context.SaveChangesAsync();
+        _logger.LogInformation("Restaurant {RestaurantId} created successfully",restaurant.Id);
         return new RestaurantResponseDto
         {
             Id = restaurant.Id,
@@ -66,6 +68,7 @@ public class RestaurantService : IRestaurantService
 
         if (restaurant == null)
         {
+            _logger.LogWarning("Restaurant {RestaurantId} not found",id);
             return null;
         }
 
@@ -101,6 +104,7 @@ public class RestaurantService : IRestaurantService
         restaurant.ImageUrl = dto.ImageUrl;
 
         await _context.SaveChangesAsync();
+        _logger.LogInformation("Restaurant {RestaurantId} updated",id);
 
         return new RestaurantResponseDto
         {
@@ -127,6 +131,7 @@ public class RestaurantService : IRestaurantService
         _context.Restaurants.Remove(restaurant);
 
         await _context.SaveChangesAsync();
+        _logger.LogInformation("Restaurant {RestaurantId} deleted",id);
 
         return true;
     }
