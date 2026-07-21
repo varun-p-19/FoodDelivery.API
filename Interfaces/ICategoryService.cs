@@ -5,12 +5,12 @@ namespace FoodDelivery.API.Interfaces
     {
         Task<CategoryResponseDto> CreateCategoryAsync(CreateCategoryDto dto);
 
-        //Task<IEnumerable<CategoryResponseDto>> GetAllCategoriesAsync();
+        Task<IEnumerable<CategoryResponseDto>> GetAllCategoriesAsync();
 
-       // Task<CategoryResponseDto?> GetCategoryByIdAsync(int id);
+        Task<CategoryResponseDto?> GetCategoryByIdAsync(int id);
 
-        //Task<CategoryResponseDto?> UpdateCategoryAsync(int id, UpdateCategoryDto dto);
+        Task<CategoryResponseDto?> UpdateCategoryAsync(int id, UpdateCategoryDto dto);
 
-        //Task<bool> DeleteCategoryAsync(int id);
+        Task<bool> DeleteCategoryAsync(int id);
     }
 }

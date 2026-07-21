@@ -32,6 +32,44 @@ public class CategoryController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<CategoryResponseDto>> GetCategoryById(int id)
     {
-        return Ok();
+        var category = await _categoryService.GetCategoryByIdAsync(id);
+
+        if (category == null)
+            return NotFound();
+
+        return Ok(category);
+    }
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<CategoryResponseDto>>> GetAllCategories()
+    {
+        var categories = await _categoryService.GetAllCategoriesAsync();
+
+        return Ok(categories);
+    }
+    [HttpPut("{id}")]
+    public async Task<ActionResult<CategoryResponseDto>> UpdateCategory(
+    int id,
+    UpdateCategoryDto dto)
+    {
+        var category = await _categoryService.UpdateCategoryAsync(id, dto);
+
+        if (category == null)
+        {
+            return NotFound();
+        }
+
+        return Ok(category);
+    }
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteCategory(int id)
+    {
+        var deleted = await _categoryService.DeleteCategoryAsync(id);
+
+        if (!deleted)
+        {
+            return NotFound();
+        }
+
+        return NoContent();
     }
 }

@@ -49,6 +49,69 @@ namespace FoodDelivery.API.Services
                 RestaurantId = category.RestaurantId
             };
         }
+        public async Task<IEnumerable<CategoryResponseDto>> GetAllCategoriesAsync()
+        {
+            var categories = await _context.Categories.ToListAsync();
 
+            return categories.Select(c => new CategoryResponseDto
+            {
+                Id = c.Id,
+                Name = c.Name,
+                Description = c.Description,
+                RestaurantId = c.RestaurantId
+            });
+        }
+        public async Task<CategoryResponseDto?> GetCategoryByIdAsync(int id)
+        {
+            var category = await _context.Categories.FindAsync(id);
+
+            if (category == null)
+                return null;
+
+            return new CategoryResponseDto
+            {
+                Id = category.Id,
+                Name = category.Name,
+                Description = category.Description,
+                RestaurantId = category.RestaurantId
+            };
+        }
+        public async Task<CategoryResponseDto?> UpdateCategoryAsync(int id, UpdateCategoryDto dto)
+        {
+            var category = await _context.Categories.FindAsync(id);
+
+            if (category == null)
+            {
+                return null;
+            }
+
+            category.Name = dto.Name;
+            category.Description = dto.Description;
+
+            await _context.SaveChangesAsync();
+
+            return new CategoryResponseDto
+            {
+                Id = category.Id,
+                Name = category.Name,
+                Description = category.Description,
+                RestaurantId = category.RestaurantId
+            };
+        }
+        public async Task<bool> DeleteCategoryAsync(int id)
+        {
+            var category = await _context.Categories.FindAsync(id);
+
+            if (category == null)
+            {
+                return false;
+            }
+
+            _context.Categories.Remove(category);
+
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
     }
 }
