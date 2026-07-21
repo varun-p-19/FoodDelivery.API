@@ -70,4 +70,15 @@ public class RestaurantController : ControllerBase
 
         return NoContent();
     }
+    [HttpGet("{id}/categories")]
+    public async Task<ActionResult<RestaurantWithCategoriesDto>> GetRestaurantWithCategories(int id)
+    {
+        var restaurant = await _restaurantService
+            .GetRestaurantWithCategoriesAsync(id);
+
+        if (restaurant == null)
+            return NotFound();
+
+        return Ok(restaurant);
+    }
 }

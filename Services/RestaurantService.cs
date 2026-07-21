@@ -1,4 +1,5 @@
 ﻿using FoodDelivery.API.Data;
+using FoodDelivery.API.DTOs.Category;
 using FoodDelivery.API.DTOs.Common;
 using FoodDelivery.API.DTOs.Restaurant;
 using FoodDelivery.API.Interfaces;
@@ -183,5 +184,35 @@ public class RestaurantService : IRestaurantService
         _logger.LogInformation("Restaurant {RestaurantId} deleted",id);
 
         return true;
+    }
+    public async Task<RestaurantWithCategoriesDto?> GetRestaurantWithCategoriesAsync(int id)
+    {
+        var restaurant = await _context.Restaurants
+            .Include(r => r.Categories)
+            .FirstOrDefaultAsync(r => r.Id == id);
+
+        if (restaurant == null)
+            return null;
+
+        return new RestaurantWithCategoriesDto
+        {
+            Id = restaurant.Id,
+            Name = restaurant.Name,
+            Description = restaurant.Description,
+            Address = restaurant.Address,
+            PhoneNumber = restaurant.PhoneNo,
+            Rating = restaurant.Rating,
+            ImageUrl = restaurant.ImageUrl,
+
+            Categories = restaurant.Categories
+                .Select(c => new CategoryResponseDto
+                {
+                    Id = c.Id,
+                    Name = c.Name,
+                    Description = c.Description,
+                    RestaurantId = c.RestaurantId
+                })
+                .ToList()
+        };
     }
 }
