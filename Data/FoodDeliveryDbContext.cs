@@ -8,6 +8,6 @@ namespace FoodDelivery.API.Data
         {
         }
         public DbSet<Restaurant> Restaurants { get; set; }
-
+        public DbSet<Category> Categories { get; set; }
     }
 }

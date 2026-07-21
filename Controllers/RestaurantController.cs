@@ -1,4 +1,5 @@
-﻿using FoodDelivery.API.DTOs.Restaurant;
+﻿using FoodDelivery.API.DTOs.Common;
+using FoodDelivery.API.DTOs.Restaurant;
 using FoodDelivery.API.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -37,9 +38,11 @@ public class RestaurantController : ControllerBase
         return Ok(restaurant);
     }
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<RestaurantResponseDto>>> GetAllRestaurants()
+    public async Task<ActionResult<IEnumerable<RestaurantResponseDto>>> GetAllRestaurants(
+    [FromQuery] PaginationDto pagination)
     {
-        var restaurants = await _restaurantService.GetAllRestaurantsAsync();
+        var restaurants = await _restaurantService
+            .GetAllRestaurantsAsync(pagination);
 
         return Ok(restaurants);
     }

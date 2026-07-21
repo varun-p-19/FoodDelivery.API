@@ -1,4 +1,5 @@
 ﻿using FoodDelivery.API.Data;
+using FoodDelivery.API.DTOs.Common;
 using FoodDelivery.API.DTOs.Restaurant;
 using FoodDelivery.API.Interfaces;
 using FoodDelivery.API.Models;
@@ -45,9 +46,57 @@ public class RestaurantService : IRestaurantService
             ImageUrl = restaurant.ImageUrl
         };
     }
-    public async Task<IEnumerable<RestaurantResponseDto>> GetAllRestaurantsAsync()
+    public async Task<IEnumerable<RestaurantResponseDto>> GetAllRestaurantsAsync(PaginationDto pagination)
     {
-        var restaurants = await _context.Restaurants.ToListAsync();
+        var query = _context.Restaurants.AsQueryable();
+
+       
+        if (!string.IsNullOrWhiteSpace(pagination.Search))
+        {
+            query = query.Where(r =>
+                r.Name.Contains(pagination.Search));
+        }
+
+       
+        if (pagination.MinRating.HasValue)
+        {
+            query = query.Where(r =>
+                r.Rating >= pagination.MinRating.Value);
+        }
+
+        
+        if (pagination.MaxRating.HasValue)
+        {
+            query = query.Where(r =>
+                r.Rating <= pagination.MaxRating.Value);
+        }
+
+        
+        if (!string.IsNullOrWhiteSpace(pagination.City))
+        {
+            query = query.Where(r =>
+                r.Address.Contains(pagination.City));
+        }
+
+        
+        query = pagination.SortBy?.ToLower() switch
+        {
+            "name" => pagination.Descending
+                ? query.OrderByDescending(r => r.Name)
+                : query.OrderBy(r => r.Name),
+
+            "rating" => pagination.Descending
+                ? query.OrderByDescending(r => r.Rating)
+                : query.OrderBy(r => r.Rating),
+
+            _ => query.OrderBy(r => r.Id)
+        };
+
+        
+        var restaurants = await query
+            .Skip((pagination.PageNumber - 1) * pagination.PageSize)
+            .Take(pagination.PageSize)
+            .ToListAsync();
 
         return restaurants.Select(r => new RestaurantResponseDto
         {
