@@ -9,5 +9,8 @@ namespace FoodDelivery.API.Data
         }
         public DbSet<Restaurant> Restaurants { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<FoodItem> FoodItems { get; set; }
+        public DbSet<Review> Reviews { get; set; }
+
     }
 }

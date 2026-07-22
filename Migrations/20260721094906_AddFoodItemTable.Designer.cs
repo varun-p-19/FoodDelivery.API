@@ -4,6 +4,7 @@ using FoodDelivery.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FoodDelivery.API.Migrations
 {
     [DbContext(typeof(FoodDeliveryDbContext))]
-    partial class FoodDeliveryDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260721094906_AddFoodItemTable")]
+    partial class AddFoodItemTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -128,39 +131,6 @@ namespace FoodDelivery.API.Migrations
                     b.ToTable("Restaurants");
                 });
 
-            modelBuilder.Entity("FoodDelivery.API.Models.Review", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Comment")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("Rating")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RestaurantId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserName")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RestaurantId");
-
-                    b.ToTable("Reviews");
-                });
-
             modelBuilder.Entity("FoodDelivery.API.Models.Category", b =>
                 {
                     b.HasOne("FoodDelivery.API.Models.Restaurant", "Restaurant")
@@ -183,17 +153,6 @@ namespace FoodDelivery.API.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("FoodDelivery.API.Models.Review", b =>
-                {
-                    b.HasOne("FoodDelivery.API.Models.Restaurant", "Restaurant")
-                        .WithMany("Reviews")
-                        .HasForeignKey("RestaurantId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Restaurant");
-                });
-
             modelBuilder.Entity("FoodDelivery.API.Models.Category", b =>
                 {
                     b.Navigation("FoodItems");
@@ -202,8 +161,6 @@ namespace FoodDelivery.API.Migrations
             modelBuilder.Entity("FoodDelivery.API.Models.Restaurant", b =>
                 {
                     b.Navigation("Categories");
-
-                    b.Navigation("Reviews");
                 });
 #pragma warning restore 612, 618
         }

@@ -21,5 +21,6 @@ namespace FoodDelivery.API.Models
         public TimeOnly ClosingTime { get; set; }
         public string? ImageUrl { get; set; }
         public ICollection<Category> Categories { get; set; }= new List<Category>();
+        public ICollection<Review> Reviews { get; set; } = new List<Review>();
     }
 }

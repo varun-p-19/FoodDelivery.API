@@ -14,4 +14,5 @@ public class Category
     public string? Description { get; set; }
     public int RestaurantId { get; set; }
     public Restaurant Restaurant { get; set; } = null!;
+    public ICollection<FoodItem> FoodItems { get; set; }= new List<FoodItem>();
 }

@@ -9,6 +9,8 @@ builder.Services.AddDbContext<FoodDeliveryDbContext>(options =>
         builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped<IRestaurantService, RestaurantService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<IFoodItemService, FoodItemService>();
+builder.Services.AddScoped<IReviewService, ReviewService>();
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 var app = builder.Build();
